@@ -48,6 +48,13 @@ resource "azurerm_subnet_network_security_group_association" "nsga" {
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
+resource "azurerm_public_ip" "external" {
+  name                = "${var.prefix}-pubip"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  allocation_method   = "Static"
+}
+
 resource "azurerm_network_interface" "main" {
   name                = "${var.prefix}-nic"
   resource_group_name = azurerm_resource_group.main.name
@@ -57,6 +64,8 @@ resource "azurerm_network_interface" "main" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.internal.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.external.id
+    
   }
 }
 
