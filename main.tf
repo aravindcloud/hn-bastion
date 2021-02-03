@@ -36,11 +36,15 @@ resource "azurerm_virtual_network" "main" {
 }
 
 resource "azurerm_subnet" "internal" {
-  name                 = "internal"
+  name                 = "${var.prefix}-subnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = [var.subnet_prefix]
-  network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "test" {
+  subnet_id                 = "${azurerm_subnet.internal.id}"
+  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
 }
 
 resource "azurerm_network_interface" "main" {
@@ -86,7 +90,7 @@ resource "azurerm_virtual_machine" "vm" {
   # Optional data disks
   storage_data_disk {
     name = "vm-${count.index + 1}-Data-Disk"
-    disk_size_gb = "100"
+    disk_size_gb = "25"
     managed_disk_type = "Standard_LRS"
     create_option = "Empty"
     lun = 0
