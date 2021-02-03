@@ -42,9 +42,9 @@ resource "azurerm_subnet" "internal" {
   address_prefixes     = [var.subnet_prefix]
 }
 
-resource "azurerm_subnet_network_security_group_association" "test" {
-  subnet_id                 = "${azurerm_subnet.internal.id}"
-  network_security_group_id = "${azurerm_network_security_group.nsg.id}"
+resource "azurerm_subnet_network_security_group_association" "nsga" {
+  subnet_id                 = azurerm_subnet.internal.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
 resource "azurerm_network_interface" "main" {
