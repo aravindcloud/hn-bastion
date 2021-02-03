@@ -18,17 +18,17 @@ variable "virtual_network_name" {
 
 variable "address_space" {
   description = "The address space that is used by the virtual network. You can supply more than one address space. Changing this forces a new resource to be created."
-  default     = "20.0.0.0/16"
+  default     = "10.0.0.0/16"
 }
 
 variable "subnet_prefix" {
   description = "The address prefix to use for the subnet."
-  default     = "20.0.1.0/24"
+  default     = "10.0.1.0/24"
 }
 
 variable "vm_size" {
   description    = "Virtual Machine Compute Size"
-  default = "Standard_DS2_v2"
+  default = "Standard_D2s_v3"
 }
 
 variable "admin_username" {
